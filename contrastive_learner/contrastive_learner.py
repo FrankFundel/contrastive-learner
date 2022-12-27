@@ -143,7 +143,7 @@ class ContrastiveLearner(nn.Module):
             augs.RandomGrayscale(p=0.2),
             augs.RandomHorizontalFlip(),
             RandomApply(filters.GaussianBlur2d((3, 3), (1.5, 1.5)), p=0.1),
-            augs.RandomResizedCrop((image_size, image_size))
+            augs.RandomResizedCrop((image_size[1], image_size[2]))
         )
 
         self.augment = default(augment_fn, DEFAULT_AUG)
@@ -169,7 +169,7 @@ class ContrastiveLearner(nn.Module):
         self.keys = None
 
         # send a mock image tensor to instantiate parameters
-        self.forward(torch.randn(1, 3, image_size, image_size))
+        self.forward(torch.randn(1, image_size[0], image_size[1], image_size[2]))
 
     @singleton('key_encoder')
     def _get_key_encoder(self):
